@@ -39,19 +39,19 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
-      <HintPath>..\..\..\..\Visual Studio 2013\Projects\FetishVideosMVCApplication\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <HintPath>..\..\..\..\Visual Studio 2013\Projects\SoccerHighlightsStore\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
-      <HintPath>..\..\..\..\Visual Studio 2013\Projects\FetishVideosMVCApplication\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <HintPath>..\..\..\..\Visual Studio 2013\Projects\SoccerHighlightsStore\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Owin">
-      <HintPath>..\..\..\..\Visual Studio 2013\Projects\FetishVideosMVCApplication\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+      <HintPath>..\..\..\..\Visual Studio 2013\Projects\SoccerHighlightsStore\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin">
-      <HintPath>..\..\..\..\Visual Studio 2013\Projects\FetishVideosMVCApplication\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+      <HintPath>..\..\..\..\Visual Studio 2013\Projects\SoccerHighlightsStore\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Security">
-      <HintPath>..\..\..\..\Visual Studio 2013\Projects\FetishVideosMVCApplication\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+      <HintPath>..\..\..\..\Visual Studio 2013\Projects\SoccerHighlightsStore\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -68,10 +68,10 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Video.cs" />
     <Compile Include="Identity\IdentityConfig.cs" />
-    <Compile Include="Identity\FetishVideoDbInitializer.cs" />
+    <Compile Include="Identity\SoccerVideoDbInitializer.cs" />
     <Compile Include="Identity\StoreRole.cs" />
     <Compile Include="Identity\StoreRoleManager.cs" />
-    <Compile Include="ORM\FetishVideoDbContext.cs" />
+    <Compile Include="ORM\SoccerVideoDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IOrderRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
