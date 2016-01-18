@@ -1,0 +1,49 @@
+﻿@model IPagedList<User>
+
+@*@{
+    Layout = null;
+}*@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+@if (!Model.Any())
+{
+    <h4> No videos in store</h4>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().RegistrationTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().EmailAddress)
+            </th>
+        </tr>
+    
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegistrationTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmailAddress)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.UserID }) |
+            </td>
+        </tr>
+    }
+    
+    </table>
+}
+</body>
+</html>

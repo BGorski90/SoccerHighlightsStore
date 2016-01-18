@@ -1,0 +1,107 @@
+﻿@model User
+@using Common.Contracts
+@using Common.Extensions
+
+@{
+//Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Account</title>
+
+    <link href="~/Styles/Store.css" rel="stylesheet" />
+</head>
+<body>
+    <h1> Account information: @User.Identity.Name</h1> <br />
+    <div class="container">
+        You have collected: @Model.TotalPoints points <br /><br />
+        @if (Model.TotalPoints < SpecialOffers.pointsThresholdOne)
+        {
+            var ptsForT1 = SpecialOffers.pointsThresholdOne - Model.TotalPoints;
+            <strong>Collect @ptsForT1 more points to get a free 10-minute video!</strong>@:
+        }
+        else if (Model.TotalPoints < SpecialOffers.pointsThresholdTwo)
+        {
+            @:You have enough points to get a free 10-minute video!<br /><br />
+            var ptsForT2 = SpecialOffers.pointsThresholdTwo - Model.TotalPoints;
+            <strong>Collect @ptsForT2 more points to get a free 15-minute video!</strong>@:
+        }
+        else if (Model.TotalPoints < SpecialOffers.pointsThresholdThree)
+        {
+            @:You have enough points to get a free 15-minute video!<br /><br />
+            var ptsForT3 = SpecialOffers.pointsThresholdThree - Model.TotalPoints;
+            <strong>Collect @ptsForT3 more points to get a free video of your choice!</strong>@:
+        }
+    </div>
+    <br /><br />
+    <div class="container">
+        <strong>Your wishlist</strong>
+        @if (Model.Wishlist == null || !Model.Wishlist.Any())
+        {
+            <h4> You have no videos in your wishlist </h4>
+        }
+        else
+        {
+            foreach (var video in Model.Wishlist)
+            {
+                <div class="wishlistcontainer" id="videodiv-@video.VideoID">
+                    @{Html.RenderPartial("VideoPartial", video);}
+                    @Html.SubmitButton("Remove from wishlist", new { @class = "btn btn-danger", id = "wishlistButton-" + video.VideoID, })
+                    @Html.SubmitButton("Add to cart", new { @class = "btn btn-success", id = "wishlistButton-" + video.VideoID, })
+                </div>
+            }
+        }
+    </div>
+    <br /><br />
+    <div class="container">
+        <strong>Your order history</strong> <br /><br />
+        @if (Model.Orders == null || !Model.Orders.Any())
+        {
+            <h4> You haven't ordered any videos </h4>
+        }
+        else
+        {
+            foreach (var order in Model.Orders)
+            {
+                foreach (var video in order.Videos)
+                {
+                    Html.RenderPartial("VideoPartial", video);
+                    Html.SubmitButton("Add to cart", new { @class = "btn-addcart", id = "cartButton-" + video.VideoID });
+                    Html.SubmitButton("Remove from wishlist" , new { @class = "btn-removewishlist", id = "wishlistButton-" + video.VideoID });
+                }
+            }
+        }
+    </div>
+    <br /><br />
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $('.btn-danger').click(function () {
+            var url = '/Wishlist/RemoveFromWishlist';
+            var vid = this.getAttribute('id').toString();
+            var id = vid.substring(vid.indexOf('-') + 1);
+            $.post(url, { videoID: id },
+                clearDiv(id)
+            )
+        });
+        $('.btn-success').click(function () {
+            var url = '/Cart/AddToCart';
+            var vid = this.getAttribute('id').toString();
+            var id = vid.substring(vid.indexOf('-') + 1);
+            $.post(url, { videoID: id }
+            )
+        })
+    });
+
+    function clearDiv(id) {
+        var divID = '#videodiv-' + id;
+        $(divID).remove();
+    }
+
+    </script>
+
+</body>
+</html>
