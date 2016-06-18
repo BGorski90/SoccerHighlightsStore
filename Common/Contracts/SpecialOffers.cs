@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Common.Contracts
+namespace SoccerHighlightsStore.Common.Contracts
 {
     public static class SpecialOffers
     {

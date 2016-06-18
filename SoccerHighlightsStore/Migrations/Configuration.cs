@@ -1,15 +1,13 @@
 namespace SoccerHighlightsStore.Migrations
 {
-    //using BusinessLayer.ORM;
     using BusinessLayer.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using BusinessLayer.Entities;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
-    using Microsoft.AspNet.Identity.EntityFramework;
-    using BusinessLayer.Entities;
     using Microsoft.AspNet.Identity;
-    using System.Threading;
     using DataAccessLayer.ORM;
 
     internal sealed class Configuration : DbMigrationsConfiguration<SoccerVideoDbContext>
@@ -21,29 +19,17 @@ namespace SoccerHighlightsStore.Migrations
 
         protected override void Seed(SoccerVideoDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
             ApplicationUserManager userMgr =
             new ApplicationUserManager(new UserStore<User>(context));
             StoreRoleManager roleMgr =
-            new StoreRoleManager(new RoleStore<StoreRole>(context));
+            new StoreRoleManager(new RoleStore<IdentityRole>(context));
             string roleName = "Administrators";
             string adminName = "Admin";
             string adminPassword = "secret";
             string adminEmail = "admin@example.com";
             if (!roleMgr.RoleExists(roleName))
             {
-                roleMgr.Create(new StoreRole(roleName));
+                roleMgr.Create(new IdentityRole(roleName));
             }
             User admin = userMgr.FindByName(adminName);
             if (admin == null)
@@ -75,52 +61,46 @@ namespace SoccerHighlightsStore.Migrations
                     RegistrationTime = DateTime.Now
                 }, userPassword);
             }
-            if (!context.Categories.Any())
-            {
-                context.Categories.Add(new Category { Name = "Premier League" });
-                context.Categories.Add(new Category { Name = "Primera Division" });
-                context.Categories.Add(new Category { Name = "Serie A" });
-            }
+            context.Categories.AddOrUpdate(new Category { Name = "Premier League" });
+            context.Categories.AddOrUpdate(new Category { Name = "Primera Division" });
+            context.Categories.AddOrUpdate(new Category { Name = "Serie A" });
 
             #region Videos
-            if (!context.Videos.Any())
+            context.Videos.AddOrUpdate(new Video
             {
-                context.Videos.Add(new Video
-                {
-                    Title = "Liverpool FC - Manchester United",
-                    Category = "Premier League",
-                    Description = "The latest North Derby at Anfield",
-                    Size = 949,
-                    Price = 2.99m,
-                    Length = 32,
-                    Added = DateTime.Now,
-                    Format = "WMV"
-                });
+                Title = "Liverpool FC - Manchester United",
+                Category = "Premier League",
+                Description = "The latest North Derby at Anfield",
+                Size = 949,
+                Price = 2.99m,
+                Length = 32,
+                Added = DateTime.Now,
+                Format = "WMV"
+            });
 
-                context.Videos.Add(new Video
-                {
-                    Title = "Real Madrid - FC Barcelona",
-                    Category = "Primera Division",
-                    Description = "The latest Gran Derbi at Santiago Bernabeu",
-                    Size = 935,
-                    Price = 2.99m,
-                    Length = 32,
-                    Added = DateTime.Now,
-                    Format = "WMV"
-                });
+            context.Videos.AddOrUpdate(new Video
+            {
+                Title = "Real Madrid - FC Barcelona",
+                Category = "Primera Division",
+                Description = "The latest Gran Derbi at Santiago Bernabeu",
+                Size = 935,
+                Price = 2.99m,
+                Length = 32,
+                Added = DateTime.Now,
+                Format = "WMV"
+            });
 
-                context.Videos.Add(new Video
-                {
-                    Title = "Inter Milan - AC Milan",
-                    Category = "Serie A",
-                    Description = "The latest Milan derby at San Siro",
-                    Size = 965,
-                    Price = 2.99m,
-                    Length = 33,
-                    Added = DateTime.Now,
-                    Format = "WMV"
-                });
-            }
+            context.Videos.AddOrUpdate(new Video
+            {
+                Title = "Inter Milan - AC Milan",
+                Category = "Serie A",
+                Description = "The latest Milan derby at San Siro",
+                Size = 965,
+                Price = 2.99m,
+                Length = 33,
+                Added = DateTime.Now,
+                Format = "WMV"
+            });
             #endregion
 
             base.Seed(context);

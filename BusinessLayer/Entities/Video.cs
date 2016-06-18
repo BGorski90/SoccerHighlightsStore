@@ -6,16 +6,10 @@ using System.Data.Entity;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace Storefront.BusinessLayer.Entities
+namespace SoccerHighlightsStore.BusinessLayer.Entities
 {
     public class Video
     {
-        public Video()
-        {
-            this.Orders = new HashSet<Order>();
-            this.Wishlist = new HashSet<User>();
-        }
-
         public int VideoID { get;  set; }
         [Required]
         [MaxLength(50)]
@@ -39,7 +33,7 @@ namespace Storefront.BusinessLayer.Entities
         public int Length { get;  set; }
         [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime Added { get;  set; }
-        public virtual ICollection<Order> Orders { get; set; }
-        public virtual ICollection<User> Wishlist{ get; set; }
+        public ICollection<Order> Orders { get; set; }
+        public ICollection<User> Wishlist{ get; set; }
     }
 }

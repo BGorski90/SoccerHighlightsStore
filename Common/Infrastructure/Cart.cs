@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Common.Infrastructure
+namespace SoccerHighlightsStore.Common.Infrastructure
 {
     public class Cart
     {
@@ -14,28 +14,9 @@ namespace Common.Infrastructure
             get { return _videos; }
         }
 
-        public void AddVideo(int videoID)
+        public bool Contains(int id)
         {
-            //TODO check if video is in DB
-            //int? vid = _videos.FirstOrDefault(v => v == videoID);
-            //if (vid == null)
-            _videos.Add(videoID);
+            return _videos.Contains(id);
         }
-
-        public void RemoveVideo(int videoID)
-        {
-            _videos.Remove(videoID);
-        }
-
-        public void ClearCart()
-        {
-            _videos.Clear();
-        }
-
-        public bool Contains(int videoID)
-        {
-            return _videos.Contains(videoID);
-        }
-
     }
 }

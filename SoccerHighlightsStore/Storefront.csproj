@@ -221,9 +221,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201602201642436_Initial_migration.cs" />
-    <Compile Include="Migrations\201602201642436_Initial_migration.Designer.cs">
-      <DependentUpon>201602201642436_Initial_migration.cs</DependentUpon>
+    <Compile Include="Migrations\201606181757226_Soccer.cs" />
+    <Compile Include="Migrations\201606181757226_Soccer.Designer.cs">
+      <DependentUpon>201606181757226_Soccer.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
@@ -350,7 +350,11 @@
     <Content Include="Views\Account\UserPartial.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201606181757226_Soccer.resx">
+      <DependentUpon>201606181757226_Soccer.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
@@ -364,11 +368,6 @@
       <Project>{b72b9cd5-3924-4042-b4c0-f9a4f20b44b5}</Project>
       <Name>Common</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201602201642436_Initial_migration.resx">
-      <DependentUpon>201602201642436_Initial_migration.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

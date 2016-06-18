@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Common.Contracts
+namespace SoccerHighlightsStore.Common.Contracts
 {
     public static class Consts
     {
@@ -13,5 +13,6 @@ namespace Common.Contracts
         public const string anonymousUserID = null;
         public const string anonymousUserName = "Anonymous";
         public const string cartCookieName = "Cart";
+        public static readonly string[] sortProperties = new string[] { "Added", "Price", "Length" };
     }
 }

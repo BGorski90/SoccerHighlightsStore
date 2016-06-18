@@ -105,7 +105,11 @@
     <Compile Include="Extensions\HtmlButtonExtension.cs" />
     <Compile Include="Extensions\OrderByExtension.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
+    <Compile Include="Infrastructure\BaseController.cs" />
     <Compile Include="Infrastructure\Cart.cs" />
+    <Compile Include="Infrastructure\CategoriesFormatter.cs" />
+    <Compile Include="Infrastructure\SortPropertiesFormatter.cs" />
+    <Compile Include="Infrastructure\ValidateAjaxAntiForgeryTokenAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
