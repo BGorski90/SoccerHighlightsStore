@@ -1,0 +1,64 @@
+﻿@model SoccerHighlightsStore.Storefront.Areas.Admin.ViewModels.AdminHomeViewModel
+
+@{
+    ViewBag.Title = "Store owner";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    <h1 style="text-align:center"> Store owner</h1> <br />
+    <div id="actions" style="position:relative">
+         @*<table>
+             <tr><td>@Html.ActionLink("Videos", "Index", "Videos", null, new { @class = "btn btn-default" })</td></tr>
+             <tr><td>@Html.ActionLink("Orders", "Index", "Orders", null, new { @class = "btn btn-default" })</td></tr>
+             <tr><td>@Html.ActionLink("Users", "Index", "Users", null, new { @class = "btn btn-default" })</td></tr>
+         </table>*@
+        <ul class="nav nav-pills nav-stacked">
+            @*<li class="active"></li>*@
+            <li>@Html.ActionLink("Videos", "Index", "Videos")</li>
+            <li>@Html.ActionLink("Orders", "Index", "Orders")</li>
+            <li>@Html.ActionLink("Users", "Index", "Users")</li>
+        </ul>
+    </div>
+    <div id="videos" style="padding:10px">
+        @if (!Model.Videos.Any())
+        {
+            <h4>No new videos</h4>
+        }
+        else
+        {
+            <h4>New videos</h4>
+            Html.RenderPartial("VideoPartial", Model.Videos);
+        }
+    </div>
+
+    <div id="orders" style="padding:10px">
+        @if (!Model.Orders.Any())
+        {
+            <h4>No new orders</h4>
+        }
+        else
+        {
+            <h4>New orders</h4>
+            Html.RenderPartial("OrderPartial", Model.Orders);
+        }
+    </div>
+
+    <div id="users" style="padding:10px">
+        @if (!Model.Users.Any())
+        {
+            <h4>No new users</h4>
+        }
+        else
+        {
+            <h4>New users</h4>
+            Html.RenderPartial("UserPartial", Model.Users);
+        }
+    </div>
+</body>
+</html>

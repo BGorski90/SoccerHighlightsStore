@@ -1,0 +1,162 @@
+﻿@model SearchViewModel
+@using PagedList
+@using SoccerHighlightsStore.Common.Extensions
+
+@*@{
+        Layout = null;
+    }*@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @*<link href="~/Content/Site.css" rel="stylesheet" />*@
+    @*<link href="~/Content/bootstrap.css" rel="stylesheet" />*@
+    <script src="~/Scripts/jquery.cookie-1.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jsrender.min.js"></script>
+    <script src="~/JavaScript/storefront.js"></script>
+    <script id="videoTmpl" type="text/x-jsrender">
+        {{for videos}}
+        <div>
+            <table style="width:80%;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="width:50%;vertical-align:top">
+                            <b>{{:Title}}</b>
+                            <br><br>
+                            {{:Description}}
+                        </td>
+                        <td>
+                            <video width="400" height="320" controls="">
+                                <source src={{url:"/Content/VideoPreviews/" + Title + ".webm"}} type="video/webm">
+                                <source src={{url:"/Content/VideoPreviews/" + Title + ".mp4"}} type="video/mp4">
+                            </video>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="Category">Category</label>: {{:Category}} <br>
+                            <label for="Price">Price</label>: ${{:Price}}<br>
+                            <label for="Added">Added</label>: {{:Added}} <br>
+                        </td>
+                        <td>
+                            <label for="Size">Size</label>: {{:Size}} MB<br>
+                            <label for="Length">Length</label>: {{:Length}} minutes<br>
+                            <label for="Format">Format</label>: {{:Format}}<br>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {{if !IsInCart}}
+        <input type="submit" value="Add to cart" class="btn btn-success btn-cart" id="cartButton-{{:VideoID}}">
+        {{else}}
+        <input type="submit" value="Remove from cart" class="btn btn-danger btn-cart" id="cartButton-{{:VideoID}}">
+        {{/if}}
+        {{if IsInWishlist === false}}
+        <input type="submit" value="Add to wishlist" class="btn btn-primary btn-wishlist" id="wishlistButton-{{:VideoID}}">
+        {{else  IsInWishlist === true}}
+        <input type="submit" value="Remove from wishlist" class="btn btn-danger btn-wishlist" id="wishlistButton-{{:VideoID}}">
+        {{/if}}
+        <br />
+        <hr />
+        {{/for}}
+    </script>
+    <script id="errorTmpl" type="text/x-jsrender">
+        <h1 class="text-danger">We're sorry...</h1>
+        <h1 class="text-danger">Something bad happened. Please go back to the home page.</h1>
+    </script>
+    <title>Index</title>
+</head>
+<body class="body-content">
+    <h1 align="center"> Welcome to our Soccer store! </h1>
+    <h2> Login </h2> <br />
+    <div id="user" style="clear:both">
+        @if (Request.IsAuthenticated)
+        {
+            Html.RenderPartial("~/Views/Account/UserPartial.cshtml", Model.Username);
+        }
+        else
+        {
+            Html.RenderPartial("~/Views/Account/LoginPartial.cshtml", new LoginViewModel());
+        }
+    </div>
+    <div id="cart" style="position:fixed; right:20px; overflow:auto">
+        @Html.ActionLink("View your cart", "CheckCart", "Cart", null, new { @class = "btn btn-info pull-right" })
+    </div>
+    <h2> Find your favourite movie</h2> <br />
+    <div id="options" style="padding-top:20px">
+        @using (Html.BeginForm("Index", "Store", FormMethod.Get, new { id = "searchForm" }))
+        {
+            @Html.TextBoxFor(model => model.SearchContent, new { id = "contentBox", @class = "normalcolors" }) <br>
+            @Html.ValidationMessageFor(m => Model.SearchContent, "", new { @class = "text-danger" }) <br />
+            <input type="submit" id="searchBtn" class="btn btn-success" value="Search" />
+            @:Choose category: &emsp;
+            @Html.DropDownListFor(model => model.Category, Model.AvailableCategories, new { id = "categoryOptions", @class = "normalcolors" })
+            @*@:Clips per page: &emsp;
+            @Html.DropDownListFor(model => model.ClipsPerPage, new[]
+             {
+                        new SelectListItem{ Text = "10", Value = "10"},
+                        new SelectListItem{ Text = "20", Value = "20"},
+                        new SelectListItem{ Text = "50", Value = "50"}
+                    }, new { id = "clipsPerPageOptions", @class = "normalcolors" })*@
+            @:Order by: &emsp;
+            @Html.DropDownListFor(model => model.SortBy, new[]
+             {
+                        new SelectListItem{ Text = "Price", Value = "Price"},
+                        new SelectListItem{ Text = "Length", Value = "Length"},
+                        new SelectListItem{ Text = "Added", Value = "Added"}
+                    }, new { id = "sortByOptions", @class = "normalcolors" })
+            @:Sort direction: &emsp;
+            @Html.DropDownListFor(model => model.SortDirection, new[]
+             {
+                        new SelectListItem{ Text = "Ascending", Value = "Ascending"},
+                        new SelectListItem{ Text = "Descending", Value = "Descending"},
+                    }, new { id = "sortDirectionOptions", @class = "normalcolors" })
+        }
+    </div>
+    <br />
+    <div id="videos">
+        @if (!Model.Videos.Any())
+        {
+            <h3>
+                Sorry, no videos found!!
+            </h3>
+        }
+        else
+        {
+            foreach (var item in Model.Videos)
+            {
+                Html.RenderPartial("VideoPartial", item);
+                var cart = Model.Cart;
+                var isInCart = cart != null && cart.Contains(item.VideoID);
+                @Html.SubmitButton(isInCart ? "Remove from cart" : "Add to cart", new { @class = isInCart ? "btn btn-danger btn-cart" : "btn btn-success btn-cart", id = "cartButton-" + item.VideoID, });
+                @:&emsp;&emsp;
+                if (Request.IsAuthenticated)
+                {
+                    var wishlist = Model.Wishlist;
+                    var isInWishlist = wishlist != null && wishlist.Contains(item.VideoID);
+                    @Html.SubmitButton(isInWishlist ? "Remove from wishlist" : "Add to wishlist", new { @class = isInWishlist ? "btn btn-danger btn-wishlist" : "btn btn-primary btn-wishlist", id = "wishlistButton-" + item.VideoID, });
+                }
+                <br /> <hr />
+                @*@Html.ActionLink("Buy now", "Checkout", "Order", new { @class = "btn-primary" })*@
+            }
+        }
+        @Html.HiddenFor(m => m.TotalVideos, new { id = "totalVideos" })
+    </div>
+    @*@Html.PagedListPager(Model.Videos, pageNumber => Url.Action("Index",
+               new
+               {
+                   category = Model.Category,
+                   searchContent = Model.SearchContent,
+                   sortBy = Model.SortBy,
+                   sortDirection = Model.SortDirection,
+                   clipsPerPage = Model.ClipsPerPage,
+                   page = pageNumber
+               }
+            ), new PagedListRenderOptions { DisplayItemSliceAndTotal = true, Display = PagedListDisplayMode.IfNeeded })*@
+</body>
+
+</html>

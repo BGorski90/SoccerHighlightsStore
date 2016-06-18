@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Video>
+
+@{
+    //Layout = null;
+    ViewBag.Title = "Cart";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Cart</title>
+    @*<link href="~/Styles/Store.css" rel="stylesheet" />*@
+    <script src="~/Scripts/jquery.cookie-1.4.1.min.js"></script>
+    <script src="~/JavaScript/cart.js"></script>
+</head>
+<body>
+    <h2>Cart</h2>
+    <div>
+        <hr />
+        <dl class="dl-horizontal"></dl>
+    </div>
+    <p>
+        @{
+            bool isEmpty = Model == null || !Model.Any();
+            string header = isEmpty ? "Your cart is empty" : "";
+        }
+        <span> @header </span>
+        @if (!isEmpty)
+        {
+            foreach (Video v in Model)
+            {
+                <div id='videodiv-@v.VideoID' class="videocontainer">
+                    @{Html.RenderPartial("VideoPartial", v);}
+                    @Html.SubmitButton("Remove from cart", new { @class = "btn btn-danger btn-cart", id = "cartButton-" + v.VideoID, })
+                </div>
+                <br /> <hr />
+            }
+        }
+        <br /><br />
+        <div id="checkout" style="width:30%;margin:auto">
+            @if (!isEmpty)
+            {
+                @Html.ActionLink("Checkout", "Checkout", "Order", null, new { id = "checkoutButton", @class = "btn btn-success" });
+            }
+            &emsp;
+            @Html.ActionLink("Continue shopping", "Index", "Store", null, new { @class = "btn btn-default" })
+        </div>
+    </p>
+</body>
+</html>

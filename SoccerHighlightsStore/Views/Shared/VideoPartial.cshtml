@@ -1,0 +1,31 @@
+﻿@model Video
+
+<div>
+    <table style="width:80%;">
+        <tr>
+            <td colspan="2" style="width:50%;vertical-align:top">
+                <b>@Html.DisplayFor(model => model.Title)</b>
+                <br /><br />
+                @Html.DisplayFor(model => model.Description)
+            </td>
+            <td>
+                <video width="400" height="320" controls>
+                    <source src="@Url.Content("~/Content/VideoPreviews/" + Model.Title + ".webm")" type='video/webm' />
+                    <source src="@Url.Content("~/Content/VideoPreviews/" + Model.Title + ".mp4")" type='video/mp4' />
+                    <img width="200" height="160" src="@Url.Content("~/Content/Images/" + Model.Title + ".png")" alt="Sorry, image cannot be displayed" />
+                </video>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Category): @Html.DisplayFor(model => model.Category) <br />
+                @Html.LabelFor(model => model.Price): @Html.DisplayFor(model => model.Price) <br />
+                @Html.LabelFor(model => model.Added): @Html.DisplayFor(model => model.Added) <br />
+            </td>
+            <td>
+                @Html.LabelFor(model => model.Size): @Html.DisplayFor(model => model.Size) MB <br />
+                @Html.LabelFor(model => model.Length): @Html.DisplayFor(model => model.Length) minutes <br />
+                @Html.LabelFor(model => model.Format): @Html.DisplayFor(model => model.Format)<br />
+            </td>
+    </table>
+</div>

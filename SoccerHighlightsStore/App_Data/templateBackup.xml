@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<div>
+            <table style="width:80%;">
+                <tbody>
+                    <tr>
+                        <td colspan="2">
+                            <b>{{:Title}}</b>
+                            <br><br>
+                            {{:Description}}
+                        </td>
+                        <td rowspan="2">
+                            <video width="400" height="320" controls="">
+                                <source src={{url:"/Content/VideoPreviews/" + Title + ".webm"}} type="video/webm">
+                                <source src={{url:"/Content/VideoPreviews/" + Title + ".mp4"}} type="video/mp4">
+                            </video>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="Category">Category</label>: {{:Category}} <br>
+                            <label for="Price">Price</label>: {{:Price}}<br>
+                            <label for="Added">Added</label>: {{:Added}} <br>
+                        </td>
+                        <td>
+                            <label for="Size">Size</label>: {{:Size}}<br>
+                            <label for="Length">Length</label>: {{:Length}}<br>
+                            <label for="Format">Format</label>: {{:Format}}<br>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> 
