@@ -51,7 +51,7 @@
       <HintPath>..\packages\Autofac.Mvc5.3.3.4\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="DataAccessLayer">
-      <HintPath>..\DataAccessLayer\bin\Debug\DataAccessLayer.dll</HintPath>
+      <HintPath>..\DataAccessLayer\bin\Release\DataAccessLayer.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Glimpse.Ado, Version=1.7.3.0, Culture=neutral, processorArchitecture=MSIL">
@@ -75,7 +75,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Identity">
-      <HintPath>..\Identity\bin\Debug\Identity.dll</HintPath>
+      <HintPath>..\Identity\bin\Release\Identity.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
