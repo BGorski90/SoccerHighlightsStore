@@ -32,9 +32,11 @@
   <ItemGroup>
     <Reference Include="BusinessLayer">
       <HintPath>..\BusinessLayer\bin\Debug\BusinessLayer.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Common">
       <HintPath>..\BusinessLayer\bin\Debug\Common.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="EntityFramework, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

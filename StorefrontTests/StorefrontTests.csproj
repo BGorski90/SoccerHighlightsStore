@@ -66,6 +66,7 @@
     <ProjectReference Include="..\SoccerHighlightsStore\Storefront.csproj">
       <Project>{6a9c89f2-a889-4577-bf36-3f844d18a90c}</Project>
       <Name>Storefront</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
