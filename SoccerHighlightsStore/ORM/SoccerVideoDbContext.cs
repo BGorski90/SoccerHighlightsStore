@@ -1,11 +1,10 @@
 using SoccerHighlightsStore.BusinessLayer.Entities;
-//using SoccerHighlightsStore.BusinessLayer.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Data.Entity;
 using System.Linq;
 
-namespace SoccerHighlightsStore.DataAccessLayer.ORM
+namespace SoccerHighlightsStore.ORM
 {
     public class SoccerVideoDbContext : IdentityDbContext<User>
     {
@@ -18,7 +17,6 @@ namespace SoccerHighlightsStore.DataAccessLayer.ORM
         public SoccerVideoDbContext()
             : base("name=SoccerVideoDbContext")
         {
-            Database.SetInitializer(new NullDatabaseInitializer<SoccerVideoDbContext>());
             this.Configuration.LazyLoadingEnabled = false;
         }
 

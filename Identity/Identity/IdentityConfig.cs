@@ -12,7 +12,6 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using SoccerHighlightsStore.BusinessLayer.Entities;
 using SoccerHighlightsStore.DataAccessLayer.ORM;
-//using SoccerHighlightsStore.DataAccessLayer.ORM;
 
 namespace SoccerHighlightsStore.BusinessLayer.Identity
 {

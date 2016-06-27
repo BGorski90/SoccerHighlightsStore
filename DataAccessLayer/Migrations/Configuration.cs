@@ -1,19 +1,24 @@
 namespace SoccerHighlightsStore.Migrations
 {
-    using BusinessLayer.Entities;
+    //using BusinessLayer.ORM;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using BusinessLayer.Entities;
+    using Microsoft.AspNet.Identity;
+    using System.Threading;
+    using DataAccessLayer.ORM;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<SoccerHighlightsStore.ORM.SoccerVideoDbContext>
+    public sealed class Configuration : DbMigrationsConfiguration<SoccerVideoDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(SoccerHighlightsStore.ORM.SoccerVideoDbContext context)
+        protected override void Seed(SoccerVideoDbContext context)
         {
             //ApplicationUserManager userMgr =
             //new ApplicationUserManager(new UserStore<User>(context));

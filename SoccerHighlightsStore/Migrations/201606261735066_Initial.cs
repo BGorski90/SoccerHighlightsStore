@@ -3,7 +3,7 @@ namespace SoccerHighlightsStore.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Soccer : DbMigration
+    public partial class Initial : DbMigration
     {
         public override void Up()
         {
