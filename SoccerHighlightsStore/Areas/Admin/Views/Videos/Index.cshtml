@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList<Video>
+﻿@model VideoDataResult
 
 @*@{
     Layout = null;
@@ -14,7 +14,7 @@
 </head>
 <body>
     <div style="padding:10px">
-        @if (!Model.Any())
+        @if (!Model.Videos.Any())
         {
             <h4> No videos in store</h4>
         }
@@ -26,33 +26,33 @@
         <table class="table">
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Title)
+                    @Html.DisplayNameFor(model => model.Videos.FirstOrDefault().Title)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Title)
+                    @Html.DisplayNameFor(model => model.Videos.FirstOrDefault().Title)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Size)
+                    @Html.DisplayNameFor(model => model.Videos.FirstOrDefault().Size)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Format)
+                    @Html.DisplayNameFor(model => model.Videos.FirstOrDefault().Format)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Price)
+                    @Html.DisplayNameFor(model => model.Videos.FirstOrDefault().Price)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Description)
+                    @Html.DisplayNameFor(model => model.Videos.FirstOrDefault().Description)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Length)
+                    @Html.DisplayNameFor(model => model.Videos.FirstOrDefault().Length)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Added)
+                    @Html.DisplayNameFor(model => model.Videos.FirstOrDefault().Added)
                 </th>
                 <th></th>
             </tr>
 
-            @foreach (var item in Model)
+            @foreach (var item in Model.Videos)
             {
                 {
                     <tr>
@@ -83,7 +83,7 @@
                         <td>
                             @using (Html.BeginForm("Delete", "Admin", new { id = item.VideoID }))
                             {
-                                <input type="submit" value="Delete" class=" btn btn-default" onclick="return confirm('Are you sure you want to delete the video &quot;@item.Title&quot; ?')" />
+                                <input type="submit" value="Delete" class="btn btn-default" onclick="return confirm('Are you sure you want to delete the video &quot;@item.Title&quot; ?')" />
                             }
                         </td>
                     </tr>

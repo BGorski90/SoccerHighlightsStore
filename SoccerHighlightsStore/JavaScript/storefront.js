@@ -35,6 +35,10 @@
     });
     $("#searchForm").submit(function (e) {
         e.preventDefault();
+        var errorSpan = $("#searchForm span[data-valmsg-for='SearchContent']");
+        var error = errorSpan.children();
+        if (error.length > 0)
+            return;
         $('html, body').css("cursor", "wait");
         $("#contentBox, #searchBtn").css("cursor", "inherit");
         SoccerHighlightsStore.currentPage = 1;
@@ -170,7 +174,8 @@ SoccerHighlightsStore.searchCallback = function (data, replace) {
     });
     $("#ajaxLoader").remove();
     if (replace) {
-        var message = "<h3> We found " + SoccerHighlightsStore.totalVideos + " videos matching your search.</h3>";
+        var total = SoccerHighlightsStore.totalVideos;
+        var message = "<h3> We found " + total + " video" + (total > 1 ? "s" : "") + " matching your search.</h3>";
         var summary = $("div#searchSummary");
         if (summary.length > 0) {
             $("div#searchSummary").html(message);

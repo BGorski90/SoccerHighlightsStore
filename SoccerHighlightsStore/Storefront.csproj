@@ -55,10 +55,6 @@
     <Reference Include="Autofac.Integration.Mvc">
       <HintPath>..\packages\Autofac.Mvc5.3.3.4\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="DataAccessLayer">
-      <HintPath>..\DataAccessLayer\bin\Release\DataAccessLayer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Glimpse.Ado, Version=1.7.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Glimpse.Ado.1.7.3\lib\net45\Glimpse.Ado.dll</HintPath>
       <Private>True</Private>
@@ -87,6 +83,10 @@
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="SevenZipSharp, Version=1.0.5.0, Culture=neutral, PublicKeyToken=c8ff6ba0184838bb, processorArchitecture=MSIL">
+      <HintPath>..\packages\SevenZipSharp.Net45.1.0.5\lib\net45\SevenZipSharp.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -282,8 +282,8 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="Content\VideoPreviews\Real Madrid - FC Barcelona.webm" />
-    <None Include="Properties\PublishProfiles\soccerhighlights - Web Deploy.pubxml" />
+    <Content Include="Content\VideoPreviews\RealMadrid-FCBarcelona.webm" />
+    <None Include="Properties\PublishProfiles\soccervideos - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="JavaScript\user.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -348,6 +348,12 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\UserPartial.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -363,9 +369,9 @@
       <Name>Common</Name>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Identity\Identity.csproj">
-      <Project>{e9c79ce3-0a7f-46e9-aef1-144da9ee57bd}</Project>
-      <Name>Identity</Name>
+    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">
+      <Project>{9bdf2a5c-b996-4ae3-9971-74937c7a6514}</Project>
+      <Name>DataAccessLayer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -408,6 +414,9 @@
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "C:\Program Files (x86)\7-Zip\7z.dll" /B "$(TargetDir)7z.dll" /B</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

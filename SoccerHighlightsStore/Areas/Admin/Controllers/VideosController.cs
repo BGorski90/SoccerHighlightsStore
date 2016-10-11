@@ -11,22 +11,30 @@ using System.Web.Mvc;
 using Common.Infrastructure;
 using System.Text;
 using SoccerHighlightsStore.Common.Infrastructure;
+using System.Web.Caching;
+using System.Diagnostics;
+using DataAccessLayer.Helpers;
+using SevenZip;
 
 namespace SoccerHighlightsStore.Storefront.Areas.Admin.Controllers
 {
     [Authorize(Roles = "Administrators")]
     public class VideosController : BaseController
     {
+        private VideoCacheManager _cacheManager;
         private IVideoRepository _videoRepository;
 
         public VideosController(IVideoRepository repo)
         {
             _videoRepository = repo;
+
         }
         // GET: Admin/Videos
         public ActionResult Index()
         {
-            var model = _videoRepository.Videos;
+            if (_cacheManager == null)
+                _cacheManager = new VideoCacheManager(HttpContext, _videoRepository);
+            var model = _cacheManager.Get("All") ?? _videoRepository.Videos;
             return View(model);
         }
 
@@ -34,56 +42,83 @@ namespace SoccerHighlightsStore.Storefront.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Create()
         {
+            if (_cacheManager == null)
+                _cacheManager = new VideoCacheManager(HttpContext, _videoRepository);
             ViewBag.Categories = CategoriesFormatter.FormatCategories(_videoRepository.AdminCategories, false);
             return View();
         }
 
         // POST: Video/Create
         [HttpPost]
-        public ActionResult Create(Video video, HttpPostedFileBase imageFile)
+        public ActionResult Create(Video video, HttpPostedFileBase previewZip)
         {
-            if (ModelState.IsValid && imageFile != null && imageFile.ContentLength > 0)
+            if (!ModelState.IsValid || previewZip == null || !(previewZip.ContentLength > 0))
             {
+                return View();
+            }
+            else
+            {
+                using (var tmp = new SevenZipExtractor(previewZip.InputStream))
+                {
+                    for (int i = 0; i < tmp.ArchiveFileData.Count; i++)
+                    {
+                        var fileData = tmp.ArchiveFileData[i];
+                        if (fileData.FileName.EndsWith("png") || fileData.FileName.EndsWith("jpg"))
+                        {
+                            tmp.ExtractFiles(Server.MapPath("~/Content/Images/"), fileData.Index);
+                        }
+                        else if (fileData.FileName.EndsWith("mp4") || fileData.FileName.EndsWith("webm"))
+                        {
+                            tmp.ExtractFiles(Server.MapPath("~/Content/VideoPreviews/"), fileData.Index);
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", new Exception("Wrong file format"));
+                            return View();
+                        }
+                    }
+                }
                 _videoRepository.Add(video);
-                var fileName = video.Title;
-                var path = Path.Combine(Server.MapPath("~/Content/Images/"), fileName + Path.GetExtension(imageFile.FileName));
-                imageFile.SaveAs(path);
+                //var fileName = video.Title;
+                //var path = Path.Combine(Server.MapPath("~/Content/Images/"), fileName + Path.GetExtension(previewZip.FileName));
+                //previewZip.SaveAs(path);
+                _cacheManager.Add(video);
                 return RedirectToAction("Index");
             }
-            return View();
         }
 
-        // GET: Video/Edit/5
         [HttpGet]
         public ActionResult Edit(int id)
         {
+            if (_cacheManager == null)
+                _cacheManager = new VideoCacheManager(HttpContext, _videoRepository);
             return View(_videoRepository.Get(id));
         }
 
-        // POST: Video/Edit/5
         [HttpPost]
         public ActionResult Edit(Video video)
         {
             if (ModelState.IsValid)
             {
                 _videoRepository.Update(video);
+                _cacheManager.Update(video);
                 return RedirectToAction("Index");
             }
             return View();
         }
 
-        // POST: Video/Delete/5
         [HttpPost]
         public ActionResult Delete(int id)
         {
             _videoRepository.Remove(id);
+            _cacheManager.Remove(id);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public JsonResult AddCategory(Category category)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 var message = new StringBuilder();
                 foreach (ModelState modelState in ViewData.ModelState.Values)

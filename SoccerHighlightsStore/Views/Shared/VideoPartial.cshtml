@@ -10,9 +10,9 @@
             </td>
             <td>
                 <video width="400" height="320" controls>
-                    <source src="@Url.Content("~/Content/VideoPreviews/" + Model.Title + ".webm")" type='video/webm' />
-                    <source src="@Url.Content("~/Content/VideoPreviews/" + Model.Title + ".mp4")" type='video/mp4' />
-                    <img width="200" height="160" src="@Url.Content("~/Content/Images/" + Model.Title + ".png")" alt="Sorry, image cannot be displayed" />
+                    <source src="@Url.Content("~/Content/VideoPreviews/" + Model.Title.Replace(" ","") + ".webm")" type='video/webm' />
+                    <source src="@Url.Content("~/Content/VideoPreviews/" + Model.Title.Replace(" ","") + ".mp4")" type='video/mp4' />
+                    <img width="200" height="160" src="@Url.Content("~/Content/Images/" + Model.Title.Replace(" ","") + ".png")" alt="Sorry, image cannot be displayed" />
                 </video>
             </td>
         </tr>

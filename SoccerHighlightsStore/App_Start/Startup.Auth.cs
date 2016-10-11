@@ -7,7 +7,7 @@ using Microsoft.Owin.Security.Google;
 using Owin;
 using SoccerHighlightsStore.BusinessLayer.Entities;
 using SoccerHighlightsStore.DataAccessLayer.ORM;
-using SoccerHighlightsStore.BusinessLayer.Identity;
+using SoccerHighlightsStore.DataAccessLayer.Identity;
 
 namespace SoccerHighlightsStore.Storefront
 {

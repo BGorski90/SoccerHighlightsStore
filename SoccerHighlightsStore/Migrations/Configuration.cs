@@ -6,57 +6,15 @@ namespace SoccerHighlightsStore.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<SoccerHighlightsStore.ORM.SoccerVideoDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ORM.SoccerVideoDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(SoccerHighlightsStore.ORM.SoccerVideoDbContext context)
+        protected override void Seed(ORM.SoccerVideoDbContext context)
         {
-            //ApplicationUserManager userMgr =
-            //new ApplicationUserManager(new UserStore<User>(context));
-            //StoreRoleManager roleMgr =
-            //new StoreRoleManager(new RoleStore<StoreRole>(context));
-            //string roleName = "Administrators";
-            //string adminName = "Admin";
-            //string adminPassword = "secret";
-            //string adminEmail = "admin@example.com";
-            //if (!roleMgr.RoleExists(roleName))
-            //{
-            //    roleMgr.Create(new StoreRole(roleName));
-            //}
-            //User admin = userMgr.FindByName(adminName);
-            //if (admin == null)
-            //{
-            //    userMgr.Create(new User
-            //    {
-            //        UserName = adminName,
-            //        Email = adminEmail,
-            //        RegistrationTime = DateTime.Now
-            //    }, adminPassword);
-            //    admin = userMgr.FindByName(adminName);
-            //}
-            //if (!userMgr.IsInRole(admin.Id, roleName))
-            //{
-            //    userMgr.AddToRole(admin.Id, roleName);
-            //}
-
-            //string userName = "BartG";
-            //string userPassword = "manutd";
-            //string userEmail = "bgorski90@gmail.com";
-
-            //User user = userMgr.FindByName(userName);
-            //if (user == null)
-            //{
-            //    userMgr.Create(new User
-            //    {
-            //        UserName = userName,
-            //        Email = userEmail,
-            //        RegistrationTime = DateTime.Now
-            //    }, userPassword);
-            //}
             context.Categories.AddOrUpdate(new Category { Name = "Premier League" });
             context.Categories.AddOrUpdate(new Category { Name = "Primera Division" });
             context.Categories.AddOrUpdate(new Category { Name = "Serie A" });

@@ -7,7 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using SoccerHighlightsStore.Storefront.Models;
-using SoccerHighlightsStore.BusinessLayer.Identity;
+using SoccerHighlightsStore.DataAccessLayer.Identity;
 using SoccerHighlightsStore.Common.Infrastructure;
 
 namespace SoccerHighlightsStore.Storefront.Controllers

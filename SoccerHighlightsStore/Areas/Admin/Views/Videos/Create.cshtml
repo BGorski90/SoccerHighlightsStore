@@ -23,7 +23,7 @@
             <input type="button" id="addCategoryBtn" class="btn btn-success" value="Add" />
         </span>
     </div>
-    @using (Html.BeginForm("Create", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("Create", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
 
@@ -42,7 +42,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Category, (IEnumerable<SelectListItem>)ViewBag.Categories, "Select category", new { id = "categoriesList" })
+                    @Html.DropDownListFor(model => model.Category, (IEnumerable<SelectListItem>)ViewBag.Categories, "Select category", new { id = "categoriesList", @class = "normalcolors" })
                     @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -87,9 +87,9 @@
                 </div>
             </div>
             <div class="form-group">
-                @Html.Label("Your file", new { @class = "control-label col-md-2" })
+                @Html.Label("Preview zip", new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    <input type="file" name="imageFile" value="Choose"/>
+                    <input type="file" name="previewZip" accept=".zip" value="Choose"/>
                 </div>
             </div>
             <div class="form-group">

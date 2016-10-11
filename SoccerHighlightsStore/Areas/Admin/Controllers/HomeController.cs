@@ -34,7 +34,7 @@ namespace SoccerHighlightsStore.Storefront.Areas.Admin.Controllers
             var model = new AdminHomeViewModel();
             model.Videos = _videoRepository.GetVideos(limit: mainPageItems).Videos;
             model.Orders = _orderRepository.GetOrders(limit: mainPageItems);
-            //model.Users = _userRepository.GetUsers(limit: mainPageItems);
+            model.Users = _userRepository.GetUsers(limit: mainPageItems);
             return View(model);
         }
 

@@ -1,13 +1,13 @@
 ﻿using SoccerHighlightsStore.BusinessLayer.Entities;
 using System.Collections.Generic;
-using BusinessLayer.Helpers;
 using PagedList;
+using SoccerHighlightsStore.DataAccessLayer.Helpers;
 
 namespace SoccerHighlightsStore.DataAccessLayer.Repositories
 {
     public interface IVideoRepository
     {
-        IPagedList<Video> Videos { get; }
+        VideoDataResult Videos { get; }
         VideoDataResult GetVideos(string sortBy = "Added", bool isDescending = true, int page = 1, int limit = int.MaxValue);
         Video Get(int id);
         IEnumerable<Video> GetCartVideos(ISet<int> ids);
@@ -15,7 +15,7 @@ namespace SoccerHighlightsStore.DataAccessLayer.Repositories
         IEnumerable<string> AdminCategories { get; }
         int TotalClips { get; }
 
-        VideoDataResult Search(string category, string content, string sortBy, bool isDescending, int page, int limit, bool includeTotal);
+        VideoDataResult Search(string category = null, string content = null, string sortBy = "Added", bool isDescending = true, int page = 1, int limit = int.MaxValue, bool includeTotal = true);
         void Add(Video video);
         void AddCategory(Category category);
         void Update(Video video);

@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using SoccerHighlightsStore.Common.Contracts;
-using BusinessLayer.Helpers;
 using PagedList;
+using DataAccessLayer.Helpers;
+using SoccerHighlightsStore.DataAccessLayer.Helpers;
 
 namespace SoccerHighlightsStore.DataAccessLayer.Repositories
 {
@@ -55,11 +56,11 @@ namespace SoccerHighlightsStore.DataAccessLayer.Repositories
             });
         }
 
-        public IPagedList<Video> Videos
+        public VideoDataResult Videos
         {
             get
             {
-                return _videos.ToPagedList(Consts.defaultPageNumber, Consts.defaultPageSize);
+                return new VideoDataResult { Videos = _videos.ToPagedList(Consts.defaultPageNumber, Consts.defaultPageSize), TotalVideos = TotalClips };
             }
         }
 
@@ -96,7 +97,7 @@ namespace SoccerHighlightsStore.DataAccessLayer.Repositories
             return new VideoDataResult { Videos = result.ToPagedList(page, limit), TotalVideos = result.Count };
         }
 
-        public VideoDataResult Search(string category, string content, string sortBy = "Added", bool isDescending = true, int page = 1, int limit = int.MaxValue, bool includeTotal = false)
+        public VideoDataResult Search(string category = null, string content = null, string sortBy = "Added", bool isDescending = true, int page = 1, int limit = int.MaxValue, bool includeTotal = true)
         {
             var result = new List<Video>().AsQueryable();
             if (category == "All")

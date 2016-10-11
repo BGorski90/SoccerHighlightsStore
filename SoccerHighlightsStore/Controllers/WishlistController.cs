@@ -1,4 +1,4 @@
-﻿using SoccerHighlightsStore.BusinessLayer.Identity;
+﻿using SoccerHighlightsStore.DataAccessLayer.Identity;
 using SoccerHighlightsStore.Common.Infrastructure;
 using SoccerHighlightsStore.BusinessLayer.Entities;
 using SoccerHighlightsStore.DataAccessLayer.Repositories;

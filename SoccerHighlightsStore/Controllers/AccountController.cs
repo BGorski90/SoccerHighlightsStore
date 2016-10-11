@@ -11,7 +11,7 @@ using Microsoft.Owin.Security;
 using SoccerHighlightsStore.Storefront.Models;
 using SoccerHighlightsStore.BusinessLayer.Entities;
 using SoccerHighlightsStore.DataAccessLayer.Repositories;
-using SoccerHighlightsStore.BusinessLayer.Identity;
+using SoccerHighlightsStore.DataAccessLayer.Identity;
 using SoccerHighlightsStore.Storefront.ViewModels;
 using SoccerHighlightsStore.Common.Infrastructure;
 
