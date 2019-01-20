@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Functional.Option;
 
 namespace SoccerHighlightsStore.Storefront.Controllers
 {
@@ -33,7 +34,7 @@ namespace SoccerHighlightsStore.Storefront.Controllers
         public ActionResult Checkout()
         {
             Cart cart = ExtractCartFromCookie();
-            var videos = _videosRepository.GetVideos().Videos.Where(v => cart.Videos.Contains(v.VideoID));
+            var videos = _videosRepository.Videos.Where(v => cart.Videos.Contains(v.VideoID));
             var value = videos.Sum(v => v.Price);
             return View(new PaymentViewModel { Cart = videos, OrderValue = value });
         }
@@ -44,7 +45,7 @@ namespace SoccerHighlightsStore.Storefront.Controllers
             //Authorize payment
             if (_paymentProcessor.AuthorizePayment(paymentData))
             {
-                Cart cart = ExtractCartFromCookie();
+                var cart = ExtractCartFromCookie();
                 var userID = User.Identity.IsAuthenticated ?
                                             _usersRepository.FindByEmail(paymentData.EmailAddress).Id
                                             : Consts.anonymousUserID;

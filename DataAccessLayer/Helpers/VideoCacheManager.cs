@@ -1,11 +1,6 @@
-﻿using SoccerHighlightsStore.BusinessLayer.Entities;
-using SoccerHighlightsStore.DataAccessLayer.Helpers;
+﻿using PagedList;
+using SoccerHighlightsStore.BusinessLayer.Entities;
 using SoccerHighlightsStore.DataAccessLayer.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Caching;
 
@@ -23,9 +18,9 @@ namespace DataAccessLayer.Helpers
             _videoRepository = repo;
         }
 
-        public VideoDataResult Get(string key)
+        public IPagedList<Video> Get(string key)
         {
-            return _context.Cache[key] as VideoDataResult;
+            return _context.Cache[key] as IPagedList<Video>;
         }
 
         public void Add(Video video)

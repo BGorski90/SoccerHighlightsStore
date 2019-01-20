@@ -5,12 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Web;
 using SoccerHighlightsStore.Common.Contracts;
 using PagedList;
-using DataAccessLayer.Helpers;
-using SoccerHighlightsStore.DataAccessLayer.Helpers;
 
 namespace SoccerHighlightsStore.DataAccessLayer.Repositories
 {
@@ -21,14 +17,14 @@ namespace SoccerHighlightsStore.DataAccessLayer.Repositories
         public VideoRepository()
         {
             db = new SoccerVideoDbContext();
-            db.Database.Log = (query => Debug.WriteLine(query));
+            db.Database.Log = query => Debug.WriteLine(query);
         }
 
-        public VideoDataResult Videos
+        public IEnumerable<Video> Videos
         {
             get
             {
-                return new VideoDataResult { Videos = db.Videos.OrderByDescending(v => v.Added).ToPagedList(Consts.defaultPageNumber, Consts.defaultPageSize), TotalVideos = TotalClips };
+                return db.Videos.OrderByDescending(v => v.Added).ToList();
             }
         }
 
@@ -48,23 +44,9 @@ namespace SoccerHighlightsStore.DataAccessLayer.Repositories
             }
         }
 
-        public int TotalClips
-        {
-            get
-            {
-                return db.Videos.Count();
-            }
-        }
-
-        public VideoDataResult GetVideos(string sortBy = "Added", bool isDescending = true, int page = Consts.defaultPageNumber, int limit = Consts.defaultPageSize)
-        {
-            var result = db.Videos.OrderBy(sortBy, isDescending);
-            return new VideoDataResult { Videos = result.ToPagedList(page, limit), TotalVideos = result.Count() };
-        }
-
         public Video Get(int id)
         {
-            return db.Videos.SingleOrDefault(v => v.VideoID == id);
+            return db.Videos.Find(id);
         }
 
         public IEnumerable<Video> GetCartVideos(ISet<int> ids)
@@ -72,33 +54,26 @@ namespace SoccerHighlightsStore.DataAccessLayer.Repositories
             return db.Videos.Where(v => ids.Contains(v.VideoID));
         }
 
-        public VideoDataResult Search(string category = null, string content = null, string sortBy = "Added", bool isDescending = true, int page = 1, int limit = int.MaxValue, bool includeTotal = true)
+        public IEnumerable<Video> Search(string category = null, string content = null, string sortBy = "Added", bool isDescending = true, int page = 1, int limit = int.MaxValue)
         {
             bool hasCategory = !(category.Equals("All") || string.IsNullOrWhiteSpace(category));
             bool hasContent = !string.IsNullOrWhiteSpace(content);
-            var result = new List<Video>().AsQueryable();
-            if (!hasCategory && !hasContent)
+
+            IQueryable<Video> query = db.Videos;
+
+            if(hasCategory)
             {
-                return GetVideos(sortBy, isDescending, page, limit);
+                query = query.Where(v => v.Category.Equals(category));
             }
-            else if(hasCategory && !hasContent)
+
+            if(hasContent)
             {
-                result = db.Videos.Where(v => v.Category.Equals(category)).OrderBy(sortBy, isDescending);
-            }
-            else if (!hasCategory && hasContent)
-            {
-                result = db.Videos.Where(v => v.Category.Contains(content)
+                query = query.Where(v => v.Category.Contains(content)
                         || v.Title.Contains(content)
-                        || v.Description.Contains(content)).OrderBy(sortBy, isDescending);
+                        || v.Description.Contains(content));;
             }
-            else
-            {
-                result = db.Videos.Where(v => (v.Category.Equals(category)) &&
-                        (v.Category.Contains(content)
-                        || v.Title.Contains(content)
-                        || v.Description.Contains(content))).OrderBy(sortBy, isDescending);
-            }
-            return new VideoDataResult { Videos = result.ToPagedList(page, limit), TotalVideos = includeTotal ?  result.Count() : -1};
+
+            return query.OrderBy(sortBy, isDescending).Skip(page - 1).Take(limit).ToList();
         }
 
         public void Add(Video video)

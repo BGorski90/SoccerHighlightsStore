@@ -22,9 +22,7 @@ namespace SoccerHighlightsStore.Common.Infrastructure
                 {
                     var antiForgeryCookie = request.Cookies[AntiForgeryConfig.CookieName];
 
-                    var cookieValue = antiForgeryCookie != null
-                        ? antiForgeryCookie.Value
-                        : null;
+                    var cookieValue = antiForgeryCookie?.Value;
 
                     AntiForgery.Validate(cookieValue, request.Headers["__RequestVerificationToken"]);
                 }

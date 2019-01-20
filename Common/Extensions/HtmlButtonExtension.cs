@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using System.Web.Mvc;
 
 namespace SoccerHighlightsStore.Common.Extensions
 {
     public static class HtmlButtonExtension
     {
-
         public static MvcHtmlString SubmitButton(this HtmlHelper helper, string buttonText, object htmlAttributes = null)
         {
-            StringBuilder html = new StringBuilder();
+            var html = new StringBuilder();
             html.AppendFormat("<input type = 'submit' value = '{0}' ", buttonText);
             //{ class = btn btn-default, id = create-button }
             var attributes = helper.AttributeEncode(htmlAttributes);

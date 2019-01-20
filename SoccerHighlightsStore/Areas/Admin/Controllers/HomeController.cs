@@ -32,7 +32,7 @@ namespace SoccerHighlightsStore.Storefront.Areas.Admin.Controllers
         public ActionResult Index()
         {
             var model = new AdminHomeViewModel();
-            model.Videos = _videoRepository.GetVideos(limit: mainPageItems).Videos;
+            model.Videos = _videoRepository.Videos.Take(mainPageItems);
             model.Orders = _orderRepository.GetOrders(limit: mainPageItems);
             model.Users = _userRepository.GetUsers(limit: mainPageItems);
             return View(model);

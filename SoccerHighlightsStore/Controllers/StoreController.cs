@@ -1,16 +1,13 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using PagedList;
 using SoccerHighlightsStore.Storefront.ViewModels;
 using SoccerHighlightsStore.Common.Contracts;
 using SoccerHighlightsStore.DataAccessLayer.Repositories;
-using SoccerHighlightsStore.BusinessLayer.Entities;
 using SoccerHighlightsStore.Common.Infrastructure;
 using SoccerHighlightsStore.Common.Cookies;
 using Common.Infrastructure;
-using System;
 using DataAccessLayer.Helpers;
-using SoccerHighlightsStore.DataAccessLayer.Helpers;
+using PagedList;
 
 namespace SoccerHighlightsStore.Storefront.Controllers
 {
@@ -18,12 +15,7 @@ namespace SoccerHighlightsStore.Storefront.Controllers
     {
         private IVideoRepository _videosRepository;
         private IUserRepository _usersRepository;
-        private VideoCacheManager _cacheManager; 
-
-        //public StoreController(IVideoRepository repository)
-        //{
-        //    _videosRepository = repository;
-        //}
+        private VideoCacheManager _cacheManager;
 
         public StoreController(IVideoRepository repository, IUserRepository users)
         {
@@ -31,20 +23,20 @@ namespace SoccerHighlightsStore.Storefront.Controllers
             _usersRepository = users;
         }
 
-        public ActionResult Index(string category, string searchContent, string sortBy, string sortDirection, int? clipsPerPage, int? page, bool? includeTotal)
+        public ActionResult Index(string category, string searchContent, string sortBy, string sortDirection, int? clipsPerPage, int? page)
         {
             var searchModel = CreateSearchModel(category, searchContent, sortBy, sortDirection, clipsPerPage, page);
-            FillModelWithVideos(searchModel, page);
+            searchModel = FillWithVideos(searchModel, page);
             if (Request.IsAuthenticated)
             {
-                FillModelWithUserData(searchModel);
+                searchModel = FillWithUserData(searchModel);
             }
             if (!Request.IsAjaxRequest())
                 return View(searchModel);
             return Json(searchModel, JsonRequestBehavior.AllowGet);
         }
 
-        private void FillModelWithUserData(SearchViewModel searchModel)
+        private SearchViewModel FillWithUserData(SearchViewModel searchModel)
         {
             var user = _usersRepository.FindByUsername(User.Identity.Name);
             if (user != null)
@@ -52,9 +44,11 @@ namespace SoccerHighlightsStore.Storefront.Controllers
                 searchModel.Username = user.UserName;
                 searchModel.Wishlist = user.Wishlist.Select(v => v.VideoID);
             }
+
+            return searchModel;
         }
 
-        private void FillModelWithVideos(SearchViewModel searchModel, int? page)
+        private SearchViewModel FillWithVideos(SearchViewModel searchModel, int? page)
         {
             _cacheManager = new VideoCacheManager(HttpContext, _videosRepository);
             if (page == null)
@@ -63,34 +57,33 @@ namespace SoccerHighlightsStore.Storefront.Controllers
                 if (cache == null)
                 {
                     var clips = _videosRepository.Videos;
-                    searchModel.Videos = clips.Videos;
-                    searchModel.TotalVideos = clips.TotalVideos;
+                    searchModel.Videos = clips.ToPagedList(searchModel.PageNumber, searchModel.ClipsPerPage);
                 }
                 else
                 {
-                    searchModel.Videos = cache.Videos;
-                    searchModel.TotalVideos = cache.TotalVideos;
+                    searchModel.Videos = cache;
                 }
             }
             else
             {
-                VideoDataResult result = null;
-                var categoryCache = _cacheManager.Get(searchModel.Category);
-                if (!string.IsNullOrWhiteSpace(searchModel.SearchContent) || categoryCache == null)
+                var result = _cacheManager.Get(searchModel.Category);
+                if (!string.IsNullOrWhiteSpace(searchModel.SearchContent) || result == null)
                 {
-                    result = _videosRepository.
-                    Search(searchModel.Category, searchModel.SearchContent, searchModel.SortBy,
-                    searchModel.SortDirection.Equals("Descending") ? true : false, searchModel.PageNumber,
-                    searchModel.ClipsPerPage);
+                    result = _videosRepository.Search(
+                        searchModel.Category,
+                        searchModel.SearchContent,
+                        searchModel.SortBy,
+                        searchModel.SortDirection.Equals("Descending") ? true : false,
+                        searchModel.PageNumber,
+                        searchModel.ClipsPerPage).
+                        ToPagedList(searchModel.PageNumber, searchModel.ClipsPerPage);
                 }
-                else
-                {
-                    result = categoryCache;
-                }
-                searchModel.Videos = result.Videos;
-                searchModel.TotalVideos = result.TotalVideos;
+
+                searchModel.Videos = result;
                 searchModel.Cart = ExtractCartFromCookie();
             }
+
+            return searchModel;
         }
 
         private SearchViewModel CreateSearchModel(string category, string searchContent, string sortBy, string sortDirection, int? clipsPerPage, int? page)

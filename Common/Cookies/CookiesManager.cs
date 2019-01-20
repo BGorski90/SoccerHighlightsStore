@@ -6,19 +6,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using Functional.Option;
 
 namespace SoccerHighlightsStore.Common.Cookies
 {
     public static class CookiesManager
     {
-        public static Cart ExtractCartFromCookie(HttpCookie cookie)
+        public static Option<Cart> ExtractCartOrEmptyFromCookie(HttpCookie cookie)
         {
-            if (cookie == null)
-                throw new ArgumentNullException("cookie");
             Cart cart = JsonConvert.DeserializeObject<Cart>(cookie.Value);
             if (cart == null)
-                cart = new Cart();
-            return cart;
+                return Option<Cart>.None;
+            return Option<Cart>.Some(cart);
+        }
+
+        public static Cart ExtractCartFromCookie(HttpCookie cookie)
+        {
+            return JsonConvert.DeserializeObject<Cart>(cookie.Value);
         }
     }
 }

@@ -18,7 +18,6 @@ namespace SoccerHighlightsStore.Storefront.ViewModels
         public IEnumerable<SelectListItem> SortDirectionOptions { get; set; }
         public string Category { get; set; }
         public int ClipsPerPage { get; set; }
-        public int TotalVideos { get; set; }
         public string SortBy { get; set; }
         public string SortDirection { get; set; }
         [StringLength(100, ErrorMessage = "Search text too long")]
@@ -34,7 +33,6 @@ namespace SoccerHighlightsStore.Storefront.ViewModels
         {
             Category = "All";
             ClipsPerPage = 1;
-            TotalVideos = 0;
             SortBy = "Added";
             SortDirection = "Descending";
             SearchContent = "";

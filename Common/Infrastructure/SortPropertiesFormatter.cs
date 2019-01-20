@@ -12,12 +12,8 @@ namespace Common.Infrastructure
     {
         public static IEnumerable<SelectListItem> FormatSortProperties()
         {
-            var result = new List<SelectListItem>();
-            foreach (var prop in Consts.sortProperties)
-            {
-                result.Add(new SelectListItem { Text = prop, Value = prop });
-            }
-            return result;
+            return Consts.sortProperties.
+                Select( prop => new SelectListItem { Text = prop, Value = prop });
         }
     }
 }

@@ -10,7 +10,7 @@ namespace SoccerHighlightsStore.Common.Contracts
     {
         public const int defaultPageNumber = 1;
         public const int defaultPageSize = 10;
-        public const string anonymousUserID = null;
+        public const string anonymousUserID = "";
         public const string anonymousUserName = "Anonymous";
         public const string cartCookieName = "Cart";
         public static readonly string[] sortProperties = new string[] { "Added", "Price", "Length" };

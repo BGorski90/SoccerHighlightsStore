@@ -1,12 +1,9 @@
-﻿using SoccerHighlightsStore.BusinessLayer.Entities;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SoccerHighlightsStore.BusinessLayer.Entities
@@ -15,10 +12,13 @@ namespace SoccerHighlightsStore.BusinessLayer.Entities
     {
         [DisplayFormat(DataFormatString = "{0:g}")]
         public DateTime RegistrationTime { get; set; }
+
         [MaxLength(20)]
         public string Country { get; set; }
+
         [MaxLength(50)]
         public string City { get; set; }
+
         public int TotalPoints { get; set; }
         public int TotalOrders { get; set; }
         public decimal TotalSpending { get; set; }
@@ -34,6 +34,4 @@ namespace SoccerHighlightsStore.BusinessLayer.Entities
             return userIdentity;
         }
     }
-
-
 }

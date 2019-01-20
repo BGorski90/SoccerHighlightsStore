@@ -55,6 +55,9 @@
     <Reference Include="Microsoft.Owin.Security">
       <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
     </Reference>
+    <Reference Include="Option, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Option.3.0.1\lib\Net35\Option.dll</HintPath>
+    </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
@@ -77,13 +80,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\VideoCacheManager.cs" />
-    <Compile Include="Helpers\VideoDataResult.cs" />
     <Compile Include="Identity\IdentityConfig.cs" />
     <Compile Include="Identity\StoreRoleManager.cs" />
-    <Compile Include="Migrations\201606231809269_Initial.cs" />
-    <Compile Include="Migrations\201606231809269_Initial.Designer.cs">
-      <DependentUpon>201606231809269_Initial.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ORM\SoccerVideoDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -101,11 +99,6 @@
     <None Include="App.config" />
     <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606231809269_Initial.resx">
-      <DependentUpon>201606231809269_Initial.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BusinessLayer\BusinessLayer.csproj">

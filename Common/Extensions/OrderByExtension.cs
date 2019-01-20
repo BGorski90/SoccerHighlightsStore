@@ -20,7 +20,6 @@ namespace SoccerHighlightsStore.Common.Extensions
 
             var tType = typeof(T);
 
-
             PropertyInfo prop = tType.GetProperty(sortProperty);
 
             if (prop == null)

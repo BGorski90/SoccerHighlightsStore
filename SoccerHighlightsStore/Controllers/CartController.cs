@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Functional.Option;
 
 namespace SoccerHighlightsStore.Storefront.Controllers
 {
@@ -24,16 +25,16 @@ namespace SoccerHighlightsStore.Storefront.Controllers
 
         public ActionResult CheckCart()
         {
-            Cart cart = ExtractCartFromCookie();
-            var videos = cart != null ? _repository.GetCartVideos(cart.Videos) : null;
+            var cart = ExtractCartFromCookie();
+            var videos = cart.HasValue ? _repository.GetCartVideos(cart.Value.Videos) : Enumerable.Empty<Video>();
             return View("Cart", videos);
         }
 
-        private Cart ExtractCartFromCookie()
+        private Option<Cart> ExtractCartFromCookie()
         {
             var cookie = Request.Cookies[Consts.cartCookieName];
             if (cookie == null)
-                return null;
+                return Option<Cart>.None;
             return CookiesManager.ExtractCartFromCookie(cookie);
         }
     }
