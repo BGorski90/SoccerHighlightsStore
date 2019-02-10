@@ -7,7 +7,12 @@ namespace SoccerHighlightsStore.Common.Infrastructure
 {
     public class Cart
     {
-        public HashSet<int> Videos { get; } = new HashSet<int>();
+        public HashSet<int> Videos { get; }
+
+        public Cart(IEnumerable<int> videos)
+        {
+            Videos = new HashSet<int>(videos);
+        }
 
         public bool Contains(int id)
         {

@@ -1,6 +1,7 @@
 ﻿using PagedList;
 using SoccerHighlightsStore.BusinessLayer.Entities;
 using SoccerHighlightsStore.DataAccessLayer.Repositories;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Caching;
 
@@ -18,9 +19,9 @@ namespace DataAccessLayer.Helpers
             _videoRepository = repo;
         }
 
-        public IPagedList<Video> Get(string key)
+        public IEnumerable<Video> Get(string key)
         {
-            return _context.Cache[key] as IPagedList<Video>;
+            return _context.Cache[key] as IEnumerable<Video>;
         }
 
         public void Add(Video video)
@@ -69,7 +70,14 @@ namespace DataAccessLayer.Helpers
         {
             lock(_lock)
             {
-                _context.Cache.Insert("All", _videoRepository.Videos, null, Cache.NoAbsoluteExpiration, Cache.NoSlidingExpiration, CacheItemPriority.High, new CacheItemRemovedCallback(OnVideoCacheCleared));
+                _context.Cache.Insert(
+                    "All", 
+                    _videoRepository.Videos, 
+                    null,
+                    Cache.NoAbsoluteExpiration, 
+                    Cache.NoSlidingExpiration, 
+                    CacheItemPriority.High, 
+                    new CacheItemRemovedCallback(OnVideoCacheCleared));
             }
         }
 
@@ -77,7 +85,14 @@ namespace DataAccessLayer.Helpers
         {
             lock (_lock)
             {
-                _context.Cache.Insert(category, _videoRepository.Search(category), null, Cache.NoAbsoluteExpiration, Cache.NoSlidingExpiration, CacheItemPriority.High, new CacheItemRemovedCallback(OnVideoCacheCleared));
+                _context.Cache.Insert(
+                    category, 
+                    _videoRepository.Search(category), 
+                    null, 
+                    Cache.NoAbsoluteExpiration, 
+                    Cache.NoSlidingExpiration, 
+                    CacheItemPriority.High, 
+                    new CacheItemRemovedCallback(OnVideoCacheCleared));
             }
         }
     }

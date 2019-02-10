@@ -47,7 +47,7 @@ namespace SoccerHighlightsStore.Storefront.Controllers
             {
                 var cart = ExtractCartFromCookie();
                 var userID = User.Identity.IsAuthenticated ?
-                                            _usersRepository.FindByEmail(paymentData.EmailAddress).Id
+                                            _usersRepository.FindByEmail(paymentData.EmailAddress).Value.Id
                                             : Consts.anonymousUserID;
                 _ordersRepository.CreateOrder(cart, userID);
                 Response.Cookies.Remove(Consts.cartCookieName);
@@ -63,7 +63,7 @@ namespace SoccerHighlightsStore.Storefront.Controllers
         {
             var cookie = Request.Cookies[Consts.cartCookieName];
             if (cookie == null)
-                return new Cart();
+                return new Cart(Enumerable.Empty<int>());
             return CookiesManager.ExtractCartFromCookie(cookie);
         }
     }

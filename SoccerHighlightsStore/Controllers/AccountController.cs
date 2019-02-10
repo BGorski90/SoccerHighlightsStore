@@ -101,7 +101,19 @@ namespace SoccerHighlightsStore.Storefront.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var user = _usersRepository.FindByEmail(model.Email);
-            var result = await SignInManager.PasswordSignInAsync(user.UserName, model.Password, false, false);
+
+            if(!user.HasValue)
+            {
+                if (isAjax)
+                    return Json("Failure");
+                else
+                {
+                    ModelState.AddModelError("", "Invalid login attempt.");
+                    return View(model);
+                }
+            }
+
+            var result = await SignInManager.PasswordSignInAsync(user.Value.UserName, model.Password, false, false);
 
             switch (result)
             {

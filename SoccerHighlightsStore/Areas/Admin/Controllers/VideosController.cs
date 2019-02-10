@@ -44,7 +44,7 @@ namespace SoccerHighlightsStore.Storefront.Areas.Admin.Controllers
         {
             if (_cacheManager == null)
                 _cacheManager = new VideoCacheManager(HttpContext, _videoRepository);
-            ViewBag.Categories = CategoriesFormatter.FormatCategories(_videoRepository.AdminCategories, false);
+            ViewBag.Categories = CategoriesFormatter.FormatCategoriesForSearch(_videoRepository.AdminCategories);
             return View();
         }
 

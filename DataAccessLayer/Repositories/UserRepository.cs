@@ -1,15 +1,11 @@
-﻿//using SoccerHighlightsStore.BusinessLayer.Identity;
-using SoccerHighlightsStore.Common.Contracts;
-using SoccerHighlightsStore.Common.Extensions;
+﻿using SoccerHighlightsStore.Common.Contracts;
 using SoccerHighlightsStore.BusinessLayer.Entities;
 using SoccerHighlightsStore.DataAccessLayer.ORM;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PagedList;
+using Functional.Option;
 
 namespace SoccerHighlightsStore.DataAccessLayer.Repositories
 {
@@ -51,17 +47,12 @@ namespace SoccerHighlightsStore.DataAccessLayer.Repositories
             return false;
         }
 
-        public User FindById(string ID)
-        {
-            return db.Users.Include(u => u.Wishlist).FirstOrDefault(u => u.Id == ID);
-        }
-
-        public User FindByEmail(string email)
+        public Option<User> FindByEmail(string email)
         {
             return db.Users.Include(u => u.Wishlist).FirstOrDefault(u => u.Email == email);
         }
 
-        public User FindByUsername(string username)
+        public Option<User> FindByUsername(string username)
         {
             return db.Users.Include(u => u.Wishlist).FirstOrDefault(u => u.UserName == username);
         }
