@@ -68,7 +68,7 @@ namespace SoccerHighlightsStore.DataAccessLayer.Repositories
         }
         public void AddOrderInfoToUser(Order order)
         {
-            User buyer = db.Users.FirstOrDefault(u => u.Id == order.UserID);
+            User buyer = db.Users.Find(order.UserID);
             int orderPoints = (int)order.OrderValue + 1 + (order.Videos.Count - 1) * SpecialOffers.pointsForExtraVideo;
             buyer.TotalOrders++;
             buyer.TotalSpending += order.OrderValue;
