@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Linq;
 using PagedList;
 using Functional.Option;
+using System.Collections.Generic;
 
 namespace SoccerHighlightsStore.DataAccessLayer.Repositories
 {
@@ -18,17 +19,24 @@ namespace SoccerHighlightsStore.DataAccessLayer.Repositories
             db = new SoccerVideoDbContext();
         }
 
-        public IPagedList<User> Users
+        public IEnumerable<User> Users
         {
             get
             {
-                return db.Users.OrderByDescending(u => u.RegistrationTime).ToPagedList(Consts.defaultPageNumber, Consts.defaultPageSize);
+                return db.Users.OrderByDescending(u => u.RegistrationTime);
             }
         }
 
-        public IPagedList<User> GetUsers(string sortBy = "RegistrationTime", string sortOrder = "Descending", int page = 1, int limit = int.MaxValue)
+        public IEnumerable<User> GetUsers(string sortBy = "RegistrationTime", int limit = int.MaxValue)
         {
-            return db.Users.Include(u => u.Wishlist).OrderByDescending(u => u.RegistrationTime).ToPagedList(page, limit);
+            var sortByProperty = typeof(Order).GetProperty(sortBy);
+            return db.Users.Include(u => u.Wishlist).OrderByDescending(o => sortByProperty.GetValue(o)).Take(limit);
+        }
+
+        public IEnumerable<User> GetUsersAscending(string sortBy = "RegistrationTime", int limit = int.MaxValue)
+        {
+            var sortByProperty = typeof(Order).GetProperty(sortBy);
+            return db.Users.Include(u => u.Wishlist).OrderBy(o => sortByProperty.GetValue(o)).Take(limit);
         }
 
         public void Add(User user)

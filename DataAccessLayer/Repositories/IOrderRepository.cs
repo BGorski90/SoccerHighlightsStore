@@ -11,8 +11,8 @@ namespace SoccerHighlightsStore.DataAccessLayer.Repositories
 {
     public interface IOrderRepository
     {
-        IPagedList<Order> Orders { get; }
-        IPagedList<Order> GetOrders(string sortBy = "OrderTime", string sortOrder = "Descending", int page = 1, int limit = int.MaxValue);
+        IEnumerable<Order> Orders { get; }
+        IEnumerable<Order> GetOrders(string sortBy = "OrderTime", int limit = int.MaxValue);
         Order Get(int id);
         void CreateOrder(Cart cart, string userId);
         void Add(Order order);

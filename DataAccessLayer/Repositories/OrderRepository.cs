@@ -19,17 +19,25 @@ namespace SoccerHighlightsStore.DataAccessLayer.Repositories
             db = new SoccerVideoDbContext();
         }
 
-        public IPagedList<Order> Orders
+        public IEnumerable<Order> Orders
         {
             get
             {
-                return db.Orders.OrderByDescending(o => o.OrderTime).ToPagedList(Consts.defaultPageNumber, Consts.defaultPageSize);
+                return db.Orders.OrderByDescending(o => o.OrderTime);
             }
         }
 
-        public IPagedList<Order> GetOrders(string sortBy = "OrderTime", string sortOrder = "Descending", int page = 1, int limit = int.MaxValue)
+        public IEnumerable<Order> GetOrders(string sortBy = "OrderTime", int limit = int.MaxValue)
         {
-            return db.Orders.OrderByDescending(o => o.OrderTime).ToPagedList(page, limit);
+            var sortByProperty = typeof(Order).GetProperty(sortBy);
+            return db.Orders.OrderByDescending(o => sortByProperty.GetValue(o)).Take(limit);
+                                            
+        }
+
+        public IEnumerable<Order> GetOrdersAscending(string sortBy = "OrderTime", int limit = int.MaxValue)
+        {
+            var sortByProperty = typeof(Order).GetProperty(sortBy);
+            return db.Orders.OrderBy(o => sortByProperty.GetValue(o)).Take(limit);
         }
 
         public Order Get(int id)

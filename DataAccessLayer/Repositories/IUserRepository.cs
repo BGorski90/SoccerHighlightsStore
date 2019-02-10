@@ -11,8 +11,8 @@ namespace SoccerHighlightsStore.DataAccessLayer.Repositories
 {
     public interface IUserRepository
     {
-        IPagedList<User> Users { get; }
-        IPagedList<User> GetUsers(string sortBy = "RegistrationTime", string sortOrder = "Descending", int page = 1, int limit = int.MaxValue);
+        IEnumerable<User> Users { get; }
+        IEnumerable<User> GetUsers(string sortBy = "RegistrationTime", int limit = int.MaxValue);
         void Add(User user);
         bool Exists(string email);
         Option<User> FindByEmail(string email);

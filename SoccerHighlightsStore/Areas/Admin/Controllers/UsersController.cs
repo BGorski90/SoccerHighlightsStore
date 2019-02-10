@@ -23,7 +23,7 @@ namespace SoccerHighlightsStore.Storefront.Areas.Admin.Controllers
         // GET: Admin/Orders
         public ActionResult Index()
         {
-            var model = _userRepository.Users;
+            var model = _userRepository.Users.ToPagedList(Consts.defaultPageNumber, Consts.defaultPageSize);
             return View(model);
         }
     }
