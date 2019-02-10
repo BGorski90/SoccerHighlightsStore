@@ -57,7 +57,7 @@ namespace SoccerHighlightsStore.Storefront.Controllers
             if (Request.IsAjaxRequest())
                 return Json(searchModel, JsonRequestBehavior.AllowGet);
 
-            return View(searchModel);
+            return View(pageViewModel);
         }
 
         private IEnumerable<Video> GetAllVideos()
