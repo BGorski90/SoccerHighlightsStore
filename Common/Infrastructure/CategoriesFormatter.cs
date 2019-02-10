@@ -17,7 +17,7 @@ namespace Common.Infrastructure
 
             foreach (var cat in categories)
             {
-                new SelectListItem { Text = cat, Value = cat };
+                yield return new SelectListItem { Text = cat, Value = cat };
             }
         }
     }
