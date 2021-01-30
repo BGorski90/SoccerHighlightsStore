@@ -90,7 +90,6 @@
     <Compile Include="Repositories\IVideoRepository.cs" />
     <Compile Include="Repositories\MockOrderRepository.cs" />
     <Compile Include="Repositories\MockUserRepository.cs" />
-    <Compile Include="Repositories\MockVideoRepository.cs" />
     <Compile Include="Repositories\OrderRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\VideoRepository.cs" />
